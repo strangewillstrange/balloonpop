@@ -47,7 +47,7 @@ function inflate() {
   draw();
 }
 
-function checkBalloonPop(){
+function checkBalloonPop() {
   if (height >= maxSize) {
     let ballonElemement = document.getElementById("balloon");
     ballonElemement.classList.remove(currentColor);
@@ -56,7 +56,7 @@ function checkBalloonPop(){
     currentPopCount++;
 
     // @ts-ignore
-    document.getElementById('pop-sound').play();
+    document.getElementById("pop-sound").play();
 
     height = 40;
     width = 0;
@@ -151,11 +151,11 @@ function loadPlayers() {
 }
 
 function drawScoreboard() {
-  let template = '';
+  let template = "";
 
   players.sort((p1, p2) => p2.topScore - p1.topScore);
 
-  players.forEach(player => {
+  players.forEach((player) => {
     template += `
     <div class="d-flex space-between">
     <span>
@@ -165,10 +165,9 @@ function drawScoreboard() {
     <span>Score: ${player.topScore}</span>
     </div>
     `;
-  })
+  });
 
-  document.getElementById('players').innerHTML = template;
-
+  document.getElementById("players").innerHTML = template;
 }
 
 drawScoreboard();
