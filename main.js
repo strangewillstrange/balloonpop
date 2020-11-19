@@ -1,6 +1,10 @@
+// BUTTONS
 let startButton = document.getElementById('start-button');
 let inflateButton = document.getElementById('inflate-button');
 
+//#region GAME LOGIC AND DATA
+
+//DATA
 let clickCount = 0;
 let height = 120;
 let width = 100;
@@ -11,6 +15,7 @@ let currentPopCount = 0;
 let gameLength = 5000;
 let clockId = 0;
 let timeRemaining = 0;
+let currentPlayer = {};
 
 function startGame(){
   startButton.setAttribute('disabled', 'true');
@@ -59,7 +64,7 @@ function draw(){
   
   clickCountElem.innerText = clickCount.toString();
   popCountElem.innerText = currentPopCount.toString();
-  highPopCountElem.innerText = highestPopCount.toString();
+  highPopCountElem.innerText = currentPlayer.topScore.toString();
 }
 
 function stopGame() {
@@ -72,8 +77,9 @@ function stopGame() {
   height = 120;
   width = 100;
   
-  if( currentPopCount > highestPopCount) {
-    highestPopCount = currentPopCount;
+  if( currentPopCount > currentPlayer.topScore) {
+    currentPlayer.topScore = currentPopCount;
+    savePlayers();
   }
 
   currentPopCount = 0;
@@ -84,3 +90,46 @@ function stopGame() {
   
 
 }
+
+//#endregion
+
+let players = [];
+loadPlayers();
+
+function setPlayer(event){
+  event.preventDefault();
+  let form = event.target;
+
+  let playerName = form.playerName.value;
+
+  currentPlayer = players.find(player => player.name == playerName);
+
+  if(!currentPlayer){
+    currentPlayer = {name: playerName, topScore: 0};
+    players.push(currentPlayer);
+    savePlayers();
+  }
+  
+  form.reset();
+  document.getElementById('game').classList.remove('hidden');
+  form.classList.add('hidden');
+  draw();
+
+}
+
+function changePlayer(){
+  document.getElementById('player-form').classList.remove('hidden');
+  document.getElementById('game').classList.add('hidden');
+}
+
+function savePlayers(){
+  window.localStorage.setItem('players', JSON.stringify(players));
+}
+
+function loadPlayers(){
+  let playersData = JSON.parse(window.localStorage.getItem('players'));
+  if(playersData){
+    players = playersData;
+  }
+}
+
