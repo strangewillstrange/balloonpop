@@ -1,7 +1,3 @@
-// BUTTONS
-let startButton = document.getElementById('start-button');
-let inflateButton = document.getElementById('inflate-button');
-
 //#region GAME LOGIC AND DATA
 
 //DATA
@@ -12,57 +8,76 @@ let inflationRate = 20;
 let maxSize = 300;
 let highestPopCount = 0;
 let currentPopCount = 0;
-let gameLength = 5000;
+let gameLength = 10000;
 let clockId = 0;
 let timeRemaining = 0;
 let currentPlayer = {};
+let currentColor = "red";
+let possibleColors = ["red", "green", "blue", "pink", "purple"];
 
-function startGame(){
-  startButton.setAttribute('disabled', 'true');
-  inflateButton.removeAttribute('disabled');
+function startGame() {
+  document.getElementById("game-controls").classList.remove("hidden");
+  document.getElementById("main-controls").classList.add("hidden");
   startClock();
   setTimeout(stopGame, gameLength);
 }
 
-function startClock(){
+function startClock() {
   timeRemaining = gameLength;
   drawClock();
   clockId = setInterval(drawClock, 1000);
 }
 
-function stopClock(){
+function stopClock() {
   clearInterval(clockId);
 }
 
 function drawClock() {
-  let countdownElem = document.getElementById('countdown');
+  let countdownElem = document.getElementById("countdown");
   countdownElem.innerText = (timeRemaining / 1000).toString();
   timeRemaining -= 1000;
 }
 
-function inflate(){
-  clickCount ++;
+function inflate() {
+  clickCount++;
   height += inflationRate;
   width += inflationRate;
-  if(height >= maxSize){
-    console.log("pop the Balloon");
-    currentPopCount++;
-    height = 0;
-    width = 0;
-  }
+  checkBalloonPop();
   draw();
+
 }
 
-function draw(){
+function checkBalloonPop(){
+  if (height >= maxSize) {
+    let ballonElemement = document.getElementById("balloon");
+    ballonElemement.classList.remove(currentColor);
+    getRandomColor();
+    ballonElemement.classList.add(currentColor);
+    currentPopCount++;
+
+    // @ts-ignore
+    document.getElementById('pop-sound').play();
+
+    height = 40;
+    width = 0;
+  }
+}
+
+function getRandomColor() {
+  let i = Math.floor(Math.random() * possibleColors.length);
+  currentColor = possibleColors[i];
+}
+
+function draw() {
   let balloonElement = document.getElementById("balloon");
   let clickCountElem = document.getElementById("click-count");
-  let popCountElem = document.getElementById('pop-count');
-  let highPopCountElem = document.getElementById('high-pop-count');
-  let playerNameElem = document.getElementById('player-name');
-  
+  let popCountElem = document.getElementById("pop-count");
+  let highPopCountElem = document.getElementById("high-pop-count");
+  let playerNameElem = document.getElementById("player-name");
+
   balloonElement.style.height = height + "px";
   balloonElement.style.width = width + "px";
-  
+
   clickCountElem.innerText = clickCount.toString();
   popCountElem.innerText = currentPopCount.toString();
   highPopCountElem.innerText = currentPlayer.topScore.toString();
@@ -71,16 +86,16 @@ function draw(){
 }
 
 function stopGame() {
-  console.log('Game Over.');
+  console.log("Game Over.");
 
-  inflateButton.setAttribute('disabled', 'true');
-  startButton.removeAttribute('disabled');
+  document.getElementById("game-controls").classList.add("hidden");
+  document.getElementById("main-controls").classList.remove("hidden");
 
   clickCount = 0;
   height = 120;
   width = 100;
-  
-  if( currentPopCount > currentPlayer.topScore) {
+
+  if (currentPopCount > currentPlayer.topScore) {
     currentPlayer.topScore = currentPopCount;
     savePlayers();
   }
@@ -96,40 +111,38 @@ function stopGame() {
 let players = [];
 loadPlayers();
 
-function setPlayer(event){
+function setPlayer(event) {
   event.preventDefault();
   let form = event.target;
 
   let playerName = form.playerName.value;
 
-  currentPlayer = players.find(player => player.name == playerName);
+  currentPlayer = players.find((player) => player.name == playerName);
 
-  if(!currentPlayer){
-    currentPlayer = {name: playerName, topScore: 0};
+  if (!currentPlayer) {
+    currentPlayer = { name: playerName, topScore: 0 };
     players.push(currentPlayer);
     savePlayers();
   }
-  
+
   form.reset();
-  document.getElementById('game').classList.remove('hidden');
-  form.classList.add('hidden');
+  document.getElementById("game").classList.remove("hidden");
+  form.classList.add("hidden");
   draw();
-
 }
 
-function changePlayer(){
-  document.getElementById('player-form').classList.remove('hidden');
-  document.getElementById('game').classList.add('hidden');
+function changePlayer() {
+  document.getElementById("player-form").classList.remove("hidden");
+  document.getElementById("game").classList.add("hidden");
 }
 
-function savePlayers(){
-  window.localStorage.setItem('players', JSON.stringify(players));
+function savePlayers() {
+  window.localStorage.setItem("players", JSON.stringify(players));
 }
 
-function loadPlayers(){
-  let playersData = JSON.parse(window.localStorage.getItem('players'));
-  if(playersData){
+function loadPlayers() {
+  let playersData = JSON.parse(window.localStorage.getItem("players"));
+  if (playersData) {
     players = playersData;
   }
 }
-
