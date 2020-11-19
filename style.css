@@ -67,6 +67,14 @@ button:hover{
   filter: drop-shadow(var(--shadow));
 }
 
+.bg-dark{
+  background-color: var(--text-color);
+}
+
+.text-light{
+  color: var(--light);
+}
+
 .card{
   background-color: var(--light);
   padding: 1em;
