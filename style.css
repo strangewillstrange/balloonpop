@@ -75,16 +75,16 @@ button:hover {
   left: 5px;
   display: flex;
   justify-content: center;
-  transition: all .05s linear;
+  transition: all 0.05s linear;
   z-index: 1;
 }
 
 .pump-box span {
   background-color: white;
-  padding: .5em;
+  padding: 0.5em;
 }
 
-.pump:active .handle{
+.pump:active .handle {
   top: -20px;
 }
 
@@ -119,28 +119,35 @@ button:hover {
   animation: balloon-float 5s ease-in-out infinite;
   align-self: flex-end;
   margin: 0 auto;
-  box-shadow: inset -10px -10px 12px #ffffff4d;  
-  background: linear-gradient(-45deg, #772e19 0%, #ff0808 60%, #ff0808 80%, #ffffff 100%); 
+  box-shadow: inset -10px -10px 12px #ffffff4d;
+  background: linear-gradient(
+    -45deg,
+    #772e19 0%,
+    #ff0808 60%,
+    #ff0808 80%,
+    #ffffff 100%
+  );
 }
 
-.balloon.green{
+.balloon.green {
   filter: hue-rotate(130deg);
 }
 
-.balloon.blue{
+.balloon.blue {
   filter: hue-rotate(225deg);
 }
 
-.balloon.purple{
+.balloon.purple {
   filter: hue-rotate(225deg);
 }
 
-.balloon.pink{
+.balloon.pink {
   filter: hue-rotate(325deg);
 }
 
 @keyframes balloon-float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(-25px) rotate(5deg);
   }
   50% {
@@ -151,6 +158,12 @@ button:hover {
 .container {
   width: 50%;
   margin: auto;
+}
+
+@media screen and (max-width: 700px){
+  .container{
+    width: 90%;
+  }
 }
 
 .card {
@@ -216,6 +229,10 @@ button:hover {
 
 .mb-3 {
   margin-bottom: 0.5em;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .hidden {

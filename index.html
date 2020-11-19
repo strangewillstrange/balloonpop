@@ -30,8 +30,8 @@
       </div>
       <button type='submit'>Ok</button>
     </form>
-    <section id='game' class="game hidden">
 
+    <section id='game' class="game hidden">
       <div class="card text-light bg-dark">
         <div class="d-flex space-between">
           <div>
@@ -68,14 +68,20 @@
                 <span id="click-count"></span>
               </div>
             </div>
-              <div id="balloon" class="balloon"></div>
-              <audio id="pop-sound" src="burst.mp3"></audio>
+            <div id="balloon" class="balloon"></div>
+            <audio id="pop-sound" src="burst.mp3"></audio>
           </div>
         </div>
 
     </section>
 
   </main>
+
+  <div id="scoreboard" class="container card mt-2">
+    <h3 class="text-center">Scoreboard</h3>
+    <div id="players">
+    </div>
+  </div>
 
   <script src="main.js"></script>
 </body>
